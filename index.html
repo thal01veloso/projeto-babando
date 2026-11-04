@@ -994,6 +994,16 @@ a {
   }
 }
 </style>
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MZFSSMN8CS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MZFSSMN8CS');
+</script>
+
 </head>
 <body>
 
@@ -1254,27 +1264,33 @@ a {
 </div>
 
 <script>
-/* Eventos de intenção de compra.
-   O dataLayer pode ser recebido pelo Google Tag Manager.
-   O evento InitiateCheckout também é enviado ao Pixel se fbq já estiver instalado. */
-window.dataLayer = window.dataLayer || [];
+/* Mede a intenção de iniciar a compra na Hotmart.
+   A confirmação da venda deve ser configurada na integração da Hotmart. */
 document.addEventListener('click', function (event) {
   var link = event.target.closest('a[href*="pay.hotmart.com"]');
   if (!link) return;
 
-  var eventData = {
-    event: 'begin_checkout',
-    product_name: 'Projeto Babando',
-    checkout_provider: 'Hotmart',
-    page_location: window.location.href
-  };
-
-  window.dataLayer.push(eventData);
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'begin_checkout', {
+      currency: 'BRL',
+      value: 15.76,
+      items: [{
+        item_id: 'projeto-babando',
+        item_name: 'Projeto Babando',
+        price: 15.76,
+        quantity: 1
+      }],
+      checkout_provider: 'Hotmart',
+      transport_type: 'beacon'
+    });
+  }
 
   if (typeof window.fbq === 'function') {
     window.fbq('track', 'InitiateCheckout', {
       content_name: 'Projeto Babando',
-      content_category: 'Produto digital'
+      content_category: 'Produto digital',
+      currency: 'BRL',
+      value: 15.76
     });
   }
 });
