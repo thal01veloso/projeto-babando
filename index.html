@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Um plano prático de 30 dias para sair do automático, criar momentos de conexão e redescobrir a intimidade no relacionamento.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mais-interesse.thalesveloso.com.br/">
+<meta property="og:type" content="product">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Projeto Babando">
+<meta property="og:title" content="Projeto Babando | 30 Dias Para Reacender o Desejo e a Conexão">
+<meta property="og:description" content="Um plano prático de 30 dias para cultivar conexão, diálogo e intimidade no relacionamento.">
+<meta property="og:url" content="https://mais-interesse.thalesveloso.com.br/">
+<meta property="og:image" content="https://mais-interesse.thalesveloso.com.br/capa%20do%20produto.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Projeto Babando | 30 Dias Para Reacender o Desejo e a Conexão">
+<meta name="twitter:description" content="Um plano prático de 30 dias para cultivar conexão, diálogo e intimidade no relacionamento.">
+<meta name="twitter:image" content="https://mais-interesse.thalesveloso.com.br/capa%20do%20produto.png">
 <title>Projeto Babando | 30 Dias Para Reacender o Desejo e a Conexão</title>
 <style>
 :root {
@@ -942,6 +955,22 @@ a {
   }
 }
 
+/* ACESSIBILIDADE: FOCO VISÍVEL E MOVIMENTO REDUZIDO */
+:focus-visible {
+  outline: 3px solid #f5d0fe;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media (max-width: 520px) {
   .steps,
   .stats-grid {
@@ -969,7 +998,7 @@ a {
 <body>
 
 <div class="urgency-bar" role="region" aria-label="Oferta por tempo limitado">
-  ⚡ <strong>CONDIÇÃO ESPECIAL LIBERADA:</strong> O acesso promocional encerra em <span class="urgency-timer" id="top-countdown">02:47:59</span>
+  ✨ <strong>PROJETO BABANDO:</strong> 30 dias de ideias práticas para cultivar conexão e intimidade
 </div>
 
 <header class="hero">
@@ -1001,7 +1030,7 @@ a {
     </div>
     <div class="cover-wrapper">
       <div class="cover-glow"></div>
-      <img class="cover" src="capa%20do%20produto.png" alt="Capa do Projeto Babando: 30 dias para reacender o desejo">
+      <img class="cover" src="capa%20do%20produto.png" alt="Capa do Projeto Babando: 30 dias para reacender o desejo" width="1000" height="1000" fetchpriority="high" decoding="async">
     </div>
   </div>
 </header>
@@ -1021,7 +1050,7 @@ a {
       <span>Adaptável ao Casal</span>
     </div>
     <div class="stat-box">
-      <strong>R$ 0,52</strong>
+      <strong>R$ 0,53</strong>
       <span>Por dia do desafio</span>
     </div>
   </div>
@@ -1141,14 +1170,6 @@ a {
         <div class="offer-box">
           <span class="offer-badge-top">Oferta Especial Por Tempo Limitado</span>
           <h3>Comece Sua Jornada Hoje</h3>
-          <div class="offer-timer-wrap">
-            <span class="offer-timer-label">Condição especial expira em:</span>
-            <div class="offer-timer" aria-live="polite">
-              <div class="time-unit"><span id="cd-hours">02</span><small>Horas</small></div>
-              <div class="time-unit"><span id="cd-minutes">47</span><small>Min</small></div>
-              <div class="time-unit"><span id="cd-seconds">59</span><small>Seg</small></div>
-            </div>
-          </div>
           <p class="price-anchor">De R$ 47,00 por apenas</p>
           <p class="price">R$ 15,76 <small>à vista</small></p>
           <a class="cta" href="https://pay.hotmart.com/T108262876A">
@@ -1233,38 +1254,30 @@ a {
 </div>
 
 <script>
-(function(){
-  var KEY = 'pb_offer_deadline_v1';
-  var DURATION_MS = ((2 * 60 + 47) * 60 + 59) * 1000;
-  var now = Date.now();
-  var deadline = parseInt(localStorage.getItem(KEY), 10);
-  if (!deadline || isNaN(deadline) || deadline <= now) {
-    deadline = now + DURATION_MS;
-    try { localStorage.setItem(KEY, String(deadline)); } catch (e) {}
+/* Eventos de intenção de compra.
+   O dataLayer pode ser recebido pelo Google Tag Manager.
+   O evento InitiateCheckout também é enviado ao Pixel se fbq já estiver instalado. */
+window.dataLayer = window.dataLayer || [];
+document.addEventListener('click', function (event) {
+  var link = event.target.closest('a[href*="pay.hotmart.com"]');
+  if (!link) return;
+
+  var eventData = {
+    event: 'begin_checkout',
+    product_name: 'Projeto Babando',
+    checkout_provider: 'Hotmart',
+    page_location: window.location.href
+  };
+
+  window.dataLayer.push(eventData);
+
+  if (typeof window.fbq === 'function') {
+    window.fbq('track', 'InitiateCheckout', {
+      content_name: 'Projeto Babando',
+      content_category: 'Produto digital'
+    });
   }
-  var topEl = document.getElementById('top-countdown');
-  var hEl = document.getElementById('cd-hours');
-  var mEl = document.getElementById('cd-minutes');
-  var sEl = document.getElementById('cd-seconds');
-  function pad(n) { return n < 10 ? '0' + n : String(n); }
-  function tick() {
-    var diff = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
-    if (diff === 0) {
-      deadline = Date.now() + DURATION_MS;
-      try { localStorage.setItem(KEY, String(deadline)); } catch (e) {}
-      diff = Math.floor(DURATION_MS / 1000);
-    }
-    var h = pad(Math.floor(diff / 3600));
-    var m = pad(Math.floor((diff % 3600) / 60));
-    var s = pad(diff % 60);
-    if (topEl) topEl.textContent = h + ':' + m + ':' + s;
-    if (hEl) hEl.textContent = h;
-    if (mEl) mEl.textContent = m;
-    if (sEl) sEl.textContent = s;
-  }
-  tick();
-  setInterval(tick, 1000);
-})();
+});
 </script>
 </body>
 </html>
